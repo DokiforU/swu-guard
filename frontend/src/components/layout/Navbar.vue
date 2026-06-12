@@ -1,6 +1,6 @@
 <script setup lang="ts">
-/** 顶部导航：折叠按钮 + 面包屑 + 暗黑切换 + 用户下拉。 */
-import { Expand, Fold, Moon, Sunny } from "@element-plus/icons-vue";
+/** 顶部导航：折叠按钮 + 面包屑 + 系统首页 + 暗黑切换 + 用户下拉。 */
+import { Expand, Fold, House, Moon, Sunny } from "@element-plus/icons-vue";
 import { ElMessageBox } from "element-plus";
 
 import { useAppStore } from "@/stores/app";
@@ -34,6 +34,10 @@ async function logout() {
 function goProfile() {
   router.push("/profile");
 }
+
+function goHome() {
+  router.push("/");
+}
 </script>
 
 <template>
@@ -54,8 +58,13 @@ function goProfile() {
       </el-breadcrumb>
     </div>
 
-    <!-- 右：暗黑切换 + 用户 -->
+    <!-- 右：系统首页 + 暗黑切换 + 用户 -->
     <div class="right">
+      <button class="home-btn" @click="goHome" title="返回系统首页">
+        <el-icon :size="17"><House /></el-icon>
+        <span>系统首页</span>
+      </button>
+
       <button class="icon-btn" @click="app.toggleDark()" :title="app.dark ? '切换明亮' : '切换暗黑'">
         <el-icon :size="18">
           <component :is="app.dark ? Sunny : Moon" />
@@ -105,6 +114,25 @@ function goProfile() {
 }
 .icon-btn:hover { background: var(--swu-divider); color: var(--swu-blue); }
 
+.home-btn {
+  height: 34px;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 0 11px;
+  border: 1px solid var(--swu-border);
+  background: var(--swu-bg-elev);
+  color: var(--swu-text-2);
+  border-radius: 9px;
+  cursor: pointer;
+  font-size: 13px;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.home-btn:hover {
+  border-color: var(--swu-blue);
+  background: var(--swu-divider);
+  color: var(--swu-blue);
+}
+
 .bc { user-select: none; }
 .bc-item { color: var(--swu-text-2); font-size: 14px; }
 .bc-item.is-current { color: var(--swu-text); font-weight: 500; }
@@ -135,5 +163,7 @@ function goProfile() {
 @media (max-width: 640px) {
   .user-meta { display: none; }
   .bc { display: none; }
+  .home-btn { width: 36px; padding: 0; justify-content: center; }
+  .home-btn span { display: none; }
 }
 </style>
