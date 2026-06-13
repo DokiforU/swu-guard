@@ -9,10 +9,10 @@ export const gatesApi = {
     return request<GateOut>({ url: `/gates/${id}`, method: "GET" });
   },
   publicList() {
-    return request<GateOut[]>({ url: "/gates", method: "GET" });
+    return request<GateOut[]>({ url: "/gates", method: "GET", skipAuth: true });
   },
   publicGet(id: number) {
-    return request<GateOut>({ url: `/gates/${id}`, method: "GET" });
+    return request<GateOut>({ url: `/gates/${id}`, method: "GET", skipAuth: true });
   },
   create(data: Record<string, unknown>) {
     return request<GateOut>({ url: "/gates", method: "POST", data });

@@ -15,6 +15,8 @@ import { ElMessage } from "element-plus";
 const TOKEN_KEY = "swu_face_token";
 const REFRESH_KEY = "swu_face_refresh";
 
+type RequestConfig = AxiosRequestConfig & { skipAuth?: boolean };
+
 export function getToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);
 }
@@ -37,7 +39,9 @@ export const http: AxiosInstance = axios.create({
 
 http.interceptors.request.use((config) => {
   const token = getToken();
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+  if (token && !(config as RequestConfig).skipAuth) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 });
 
@@ -73,7 +77,7 @@ http.interceptors.response.use(
 );
 
 /** 类型友好的小包装：直接拿到 data，不用 `.data` 套娃。 */
-export async function request<T = unknown>(config: AxiosRequestConfig): Promise<T> {
+export async function request<T = unknown>(config: RequestConfig): Promise<T> {
   const r = await http.request<T>(config);
   return r.data;
 }
