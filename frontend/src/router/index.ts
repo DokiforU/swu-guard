@@ -23,11 +23,6 @@ router.beforeEach(async (to) => {
   const title = (to.meta?.title as string) ?? "";
   document.title = title ? `${title} · 西小卫` : "西小卫";
 
-  // 已登录访问 /login，直接跳首页
-  if (to.path === "/login" && auth.isLoggedIn) {
-    return { path: "/dashboard" };
-  }
-
   // 受保护路由
   if (to.meta?.requiresAuth && !auth.isLoggedIn) {
     return {
@@ -60,3 +55,4 @@ router.afterEach(() => {
 });
 
 export default router;
+
